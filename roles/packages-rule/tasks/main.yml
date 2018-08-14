@@ -11,6 +11,7 @@
     name: "{{ item }}"
     state: stopped
     enabled: no
+  ignore_errors: yes
   with_items: "{{ bad_service_disable }}"
 
 - name: Ensure good package installed
@@ -24,6 +25,7 @@
     name: "{{ item }}"
     state: started
     enabled: yes
+  ignore_errors: yes
   with_items: "{{ good_service_enable}}"
 
 - block:
