@@ -1,0 +1,50 @@
+---
+# tasks file for packages-rule
+- name: Ensure bad package removed
+  yum:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ bad_package_remove }}"
+
+- name: Ensure bad service disabled
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  with_items: "{{ bad_service_disable }}"
+
+- name: Ensure good package installed
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ good_package_install }}"
+
+- name: Ensure good service enabled
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items: "{{ good_service_enable}}"
+
+- block:
+  - name: Read permission of GPG key directory
+    stat:
+      path: "{{ gpg_dir }}"
+    register: gpg_key_dir_permission 
+    check_mode: no
+
+  - name: Read signature in GPG Key
+    shell: gpg --with-fingerprint '/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release' | grep 'Key fingerprint =' | tr -s ' ' | sed 's;.*= ;;g'
+    changed_when: False
+    register: gpg_fingerprints
+    check_mode: no
+
+  - name: Import Red Hat GPG Key
+    rpm_key:
+      state: present
+      key: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+
+
+
+

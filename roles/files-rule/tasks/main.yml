@@ -1,0 +1,28 @@
+---
+# tasks file for files-rules
+- block:
+  - name: Detecting shosts.equiv files on the system. Please wait...
+    find:
+      paths: /
+      recurse: yes
+      patterns: shosts.equiv
+    check_mode: no
+    register: shosts_equiv_locations
+
+  - name: Removing shosts.equiv files
+    file:
+      path: "{{ item.path }}"
+      state: absent
+    with_items: "{{ shosts_equiv_locations.files }}"
+    when: shosts_equiv_locations
+
+  - name: Detecting /etc/cron.allow
+    stat:
+      path: "{{ cron_allow_path }}"
+    register: p
+
+  - name: Set /etc/cron.allow ownership to root
+    file:
+      path: "{{ cron_allow_path }}"
+      owner: root
+    when: p.stat.exists

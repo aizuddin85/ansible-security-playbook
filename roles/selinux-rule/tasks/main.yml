@@ -1,0 +1,7 @@
+---
+# tasks file for selinux
+- name: Enforcing SELinux
+  selinux:
+    configfile: '{{ selinux_config }}'
+    policy: '{{ selinux_policy }}'
+    state: '{{ selinux_state }}'

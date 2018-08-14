@@ -1,0 +1,5 @@
+---
+# vars file for selinux
+selinux_config: '/etc/selinux/config'
+selinux_policy: 'targeted'
+selinux_state: 'enforcing'

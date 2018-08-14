@@ -1,0 +1,6 @@
+---
+- hosts: all
+  roles:
+    - selinux-rule
+    - packages-rule
+    - files-rule

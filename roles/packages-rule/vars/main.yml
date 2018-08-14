@@ -1,0 +1,31 @@
+---
+# vars file for packages-rule
+bad_package_remove:
+        - rsh
+        - rsh-server
+        - telnet
+        - telnet-server
+        - ypbind
+        - xinetd
+        - talk-server
+
+bad_service_disable:
+        - rlogin
+        - rexec
+        - atd
+        
+good_package_install:
+        - tcp_wrappers
+        - cronie
+        - psacct
+        - irqbalance
+        - openssh-server
+
+good_service_enable:
+        - sshd
+        - crond
+        - psacct
+        - irqbalance
+
+
+gpg_dir: '/etc/pki/rpm-gpg/'
